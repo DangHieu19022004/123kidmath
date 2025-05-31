@@ -1,35 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import SelectGradeScreen from './screens/SelectGradeScreen'
+import PlacementTestScreen from './screens/PlacementTestScreen'
+import LearningMapScreen from './screens/LearningMapScreen'
+import { GameProvider } from './GameContext'
+import { useState } from 'react'
+import TopicDetailScreen from './screens/TopicDetailScreen'
+import QuestionScreen from './screens/QuestionScreen'
 
-function App() {
-  const [count, setCount] = useState(0)
+function AppContent() {
+  const [step, setStep] = useState(1);
+  const [selectedTopic, setSelectedTopic] = useState("");
+  const [nodeProgress, setNodeProgress] = useState({
+    "Phép nhân": 0,
+    "Phép chia": 0,
+    "Biểu thức có ngoặc": 0
+  });
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  if (step === 1) return <SelectGradeScreen next={() => setStep(2)} />;
+  if (step === 2) return <PlacementTestScreen next={() => setStep(3)} />;
+  
+if (step === 3) return (
+  <LearningMapScreen
+    progressData={nodeProgress}
+    onSelectNode={(nodeName) => {
+      setSelectedTopic(nodeName);
+      setStep(4);
+    }}
+  />
+);
+if (step === 4) return (
+  <TopicDetailScreen
+    topic={selectedTopic}
+    onBack={() => setStep(3)}
+    onProgressUpdate={(topic, percent) => {
+      setNodeProgress((prev) => ({
+        ...prev,
+        [topic]: percent
+      }));
+    }}
+  />
+);
+
 }
 
-export default App
+function App() {
+  return (
+    <GameProvider>
+      <AppContent />
+    </GameProvider>
+  );
+}
+
+export default App;
