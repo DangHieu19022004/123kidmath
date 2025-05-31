@@ -10,8 +10,8 @@
 
 ```bash
 # Tải mã nguồn
-git clone https://github.com/<tên-user>/<tên-repo>.git
-cd <tên-repo>
+git clone https://github.com/DangHieu19022004/123kidmath.git
+cd 123kidmath
 
 # Cài đặt thư viện
 npm install
@@ -19,10 +19,7 @@ npm install
 yarn install
 
 
-##  🏃 2. Chạy dự án
-bash
-Copy
-Edit
+# Chạy
 npm run dev
 # hoặc
 yarn dev
