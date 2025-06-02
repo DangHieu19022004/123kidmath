@@ -1,40 +1,61 @@
 import { useState, useEffect } from "react";
 import LessonTestScreen from "./LessonTestScreen";
+import 'katex/dist/katex.min.css';
+import { InlineMath } from 'react-katex';
 
-const generateLessons = (topic) => {
-  return Array.from({ length: 10 }, (_, i) => ({
-    title: `Bài ${i + 1}`,
-    unlocked: i === 0,
-    completed: false,
-    topic,
-  }));
-};
-
-export default function TopicDetailScreen({ topic, onSelectLesson, onBack, onProgressUpdate  }) {
+export default function TopicDetailScreen({
+  topic,
+  onBack,
+  onProgressUpdate,
+  savedLessons,
+  onSaveLessons
+}) {
   const [lessons, setLessons] = useState([]);
  const [selectedLesson, setSelectedLesson] = useState(null);
-
+  const [finishedTopic, setFinishedTopic] = useState(false);
+  const [totalCorrect, setTotalCorrect] = useState(0);
 
   useEffect(() => {
-    setLessons(generateLessons(topic));
+    // Nếu đã có lịch sử lưu, dùng lại
+    if (savedLessons && savedLessons.length > 0) {
+      setLessons(savedLessons);
+    } else {
+      const initial = Array.from({ length: 10 }, (_, i) => ({
+        title: `Bài ${i + 1}`,
+        unlocked: i === 0,
+        completed: false,
+        topic,
+      }));
+      setLessons(initial);
+    }
   }, [topic]);
 
-   const handleLessonComplete = (lesson) => {
-    setLessons((prev) => {
-      const updated = prev.map((l, i) => {
-        if (l.title === lesson.title) return { ...l, completed: true };
-        if (i === prev.findIndex((item) => item.title === lesson.title) + 1) {
-          return { ...l, unlocked: true };
-        }
-        return l;
-      });
-
-      const completedCount = updated.filter((l) => l.completed).length;
-      const percent = Math.round((completedCount / updated.length) * 100);
-      onProgressUpdate(topic, percent);
-      return updated;
+  const handleLessonComplete = (lesson, score, total) => {
+  setLessons((prev) => {
+    const updated = prev.map((l, i) => {
+      if (l.title === lesson.title) return { ...l, completed: true, score, total };
+      if (i === prev.findIndex((item) => item.title === lesson.title) + 1) {
+        return { ...l, unlocked: true };
+      }
+      return l;
     });
-  };
+
+    onSaveLessons(updated); // ← lưu lại
+
+    const completed = updated.filter((l) => l.completed);
+    const percent = Math.round((completed.length / updated.length) * 100);
+    onProgressUpdate(topic, percent);
+
+    if (completed.length === updated.length) {
+      const totalScore = completed.reduce((s, l) => s + (l.score || 0), 0);
+      const totalQ = completed.reduce((s, l) => s + (l.total || 0), 0);
+      setTotalCorrect(`${totalScore}/${totalQ}`);
+      setFinishedTopic(true);
+    }
+
+    return updated;
+  });
+};
 
 console.log("Rendering TopicDetailScreen with selectedLesson =", selectedLesson);
 
@@ -68,15 +89,26 @@ console.log("Rendering TopicDetailScreen with selectedLesson =", selectedLesson)
         onComplete={handleLessonComplete}
       />
     )}
+<button
+      onClick={onBack}
+      className="mt-4 px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+    >
+      ⬅ Quay lại lộ trình học
+    </button>
+    {finishedTopic && (
+  <div className="mt-6 text-center bg-white p-4 rounded-xl shadow-lg border border-green-300 max-w-md">
+    <h3 className="text-xl font-bold text-green-700">🎉 Chúc mừng!</h3>
+    <p className="mt-2 text-base">Bạn đã hoàn thành chủ đề <b>{topic}</b>.</p>
+    <p className="mt-1 text-base font-medium text-indigo-700">Tổng điểm: {totalCorrect}</p>
+    <button
+      onClick={onBack}
+      className="mt-4 px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+    >
+      ⬅ Quay lại lộ trình học
+    </button>
+  </div>
+)}
 
-    {!selectedLesson && (
-      <button
-        onClick={onBack}
-        className="mt-8 px-6 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500"
-      >
-        🔙 Quay lại lộ trình học
-      </button>
-    )}
   </div>
   );
 }

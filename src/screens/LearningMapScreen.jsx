@@ -1,11 +1,14 @@
+import 'katex/dist/katex.min.css';
+import { InlineMath } from 'react-katex';
 
 
 export default function LearningMapScreen({ onSelectNode, progressData }) {
-  const nodes = [
-    { name: "Phép nhân" },
-    { name: "Phép chia" },
-    { name: "Biểu thức có ngoặc" },
-  ];
+ const nodes = [
+  { name: "Phân số" },
+  { name: "Phép chia" },
+  { name: "Biểu thức có ngoặc" },
+];
+
 
  return (
   <div className="min-h-screen bg-blue-50 p-6 flex flex-col items-center">

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useGame } from "../GameContext";
+import 'katex/dist/katex.min.css';
+import { InlineMath } from 'react-katex';
 
 export default function SelectGradeScreen({ next }) {
   const { grade, setGrade } = useGame();

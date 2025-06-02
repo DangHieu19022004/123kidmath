@@ -1,36 +1,38 @@
+import 'katex/dist/katex.min.css';
+import { InlineMath } from 'react-katex';
 import { useState } from "react";
 import { useGame } from "../GameContext";
 
 const questions = [
   {
-    question: "6 × 7 = ?",
-    choices: ["42", "36", "48", "56"],
-    correct: "42",
+    question: "\\frac{1}{2} bằng phân số nào?",
+    choices: ["\\frac{2}{4}", "\\frac{1}{3}", "\\frac{2}{5}", "\\frac{3}{6}"],
+    correct: "\\frac{2}{4}",
   },
   {
-    question: "12 : 3 = ?",
-    choices: ["4", "6", "3", "5"],
-    correct: "4",
+    question: "Tổng \\frac{1}{4} + \\frac{1}{4} bằng?",
+    choices: ["\\frac{1}{2}", "\\frac{2}{4}", "\\frac{1}{8}", "\\frac{3}{4}"],
+    correct: "\\frac{1}{2}",
   },
   {
-    question: "Biểu thức: 5 + 2 × 3 = ?",
-    choices: ["11", "21", "17", "10"],
-    correct: "11",
+    question: "Hiệu \\frac{3}{4} - \\frac{1}{4} là?",
+    choices: ["\\frac{2}{4}", "\\frac{1}{4}", "\\frac{3}{3}", "\\frac{4}{4}"],
+    correct: "\\frac{2}{4}",
   },
   {
-    question: "25 chia hết cho số nào?",
-    choices: ["2", "3", "4", "5"],
-    correct: "5",
+    question: "Phân số nào lớn hơn \\frac{1}{3}?",
+    choices: ["\\frac{2}{3}", "\\frac{1}{4}", "\\frac{1}{5}", "\\frac{2}{6}"],
+    correct: "\\frac{2}{3}",
   },
   {
-    question: "8 × 6 = ?",
-    choices: ["42", "48", "56", "36"],
-    correct: "48",
+    question: "Tối giản \\frac{4}{8} là?",
+    choices: ["\\frac{1}{2}", "\\frac{2}{4}", "\\frac{3}{6}", "\\frac{2}{5}"],
+    correct: "\\frac{1}{2}",
   },
   {
-    question: "(10 - 4) × 2 = ?",
-    choices: ["8", "6", "12", "16"],
-    correct: "12",
+    question: "Kết quả \\frac{2}{5} + \\frac{1}{5} là?",
+    choices: ["\\frac{3}{5}", "\\frac{1}{5}", "\\frac{2}{10}", "\\frac{1}{2}"],
+    correct: "\\frac{3}{5}",
   },
 ];
 
@@ -51,7 +53,7 @@ export default function PlacementTestScreen({ next }) {
       setScore((prev) => prev + 1);
       setFeedback("✅ Chính xác!");
     } else {
-      setFeedback(`❌ Sai rồi! Đáp án: ${q.correct}`);
+      setFeedback(`❌ Sai rồi! Đáp án đúng: `);
     }
     setSelected(choice);
 
@@ -68,9 +70,7 @@ export default function PlacementTestScreen({ next }) {
         setLevel(result);
         setScore((prev) => prev + (isCorrect ? 1 : 0));
         setFinished(true);
-        setTimeout(() => {
-          next();
-        }, 3000);
+        setTimeout(() => next(), 3000);
       }
     }, 1200);
   };
@@ -106,36 +106,38 @@ export default function PlacementTestScreen({ next }) {
             </div>
           ) : (
             <>
-              <p className="text-lg font-semibold mb-5">
-  🧠 {q.question}
-</p>
+              <p className="text-lg font-semibold mb-5 flex justify-center items-center gap-2">
+                🧠 <InlineMath math={q.question} />
+              </p>
+
               <div className="grid grid-cols-2 gap-3">
                 {q.choices.map((c, i) => (
                   <button
-  key={i}
-  onClick={() => handleAnswer(c)}
-  disabled={selected !== null}
-  className={`py-4 rounded-xl text-lg font-bold shadow-md transition-all duration-200 w-full ${
-    selected === c
-      ? c === q.correct
-        ? "bg-green-500 text-white"
-        : "bg-red-400 text-white"
-      : "bg-blue-50 hover:bg-blue-100 text-blue-800"
-  }`}
->
-  {selected === c
-    ? c === q.correct
-      ? "✅ " + c
-      : "❌ " + c
-    : "🔹 " + c}
-</button>
-
-
+                    key={i}
+                    onClick={() => handleAnswer(c)}
+                    disabled={selected !== null}
+                    className={`py-4 rounded-xl text-lg font-bold shadow-md transition-all duration-200 w-full ${
+                      selected === c
+                        ? c === q.correct
+                          ? "bg-green-500 text-white"
+                          : "bg-red-400 text-white"
+                        : "bg-blue-50 hover:bg-blue-100 text-blue-800"
+                    }`}
+                  >
+                    {selected === c
+                      ? c === q.correct
+                        ? "✅ "
+                        : "❌ "
+                      : "🔹 "}
+                    <InlineMath math={c} />
+                  </button>
                 ))}
               </div>
 
               {feedback && (
-                <div className="mt-4 text-base font-semibold text-orange-600">{feedback}</div>
+                <div className="mt-4 text-base font-semibold text-orange-600">
+                  {feedback} {!feedback.includes("Chính xác") && <InlineMath math={q.correct} />}
+                </div>
               )}
             </>
           )}
