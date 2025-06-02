@@ -23,6 +23,6 @@ yarn install
 npm run dev
 # hoặc
 yarn dev
-
+```
 ## 🖼️ Kết quả giao diện
 ![image](https://github.com/user-attachments/assets/34d23839-a896-4e2f-9c95-2e2f549e8468)
