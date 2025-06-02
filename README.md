@@ -25,4 +25,4 @@ npm run dev
 yarn dev
 
 ## 🖼️ Kết quả giao diện
-![Giao diện ứng dụng](![image](https://github.com/user-attachments/assets/34d23839-a896-4e2f-9c95-2e2f549e8468))
+![image](https://github.com/user-attachments/assets/34d23839-a896-4e2f-9c95-2e2f549e8468)
