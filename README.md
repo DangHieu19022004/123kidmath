@@ -25,11 +25,9 @@ npm run dev
 yarn dev
 ```
 ## 🖼️ Kết quả giao diện
-![image](https://github.com/user-attachments/assets/34d23839-a896-4e2f-9c95-2e2f549e8468)
-![image](https://github.com/user-attachments/assets/b1a767d1-c380-4e43-aa6a-cf1cca305882)
-![image](https://github.com/user-attachments/assets/ff5eff82-7681-4bda-9284-fe6a7f0aac30)
-![image](https://github.com/user-attachments/assets/0739341b-f9cd-408e-9cb0-0c09f065dade)
-![image](https://github.com/user-attachments/assets/7ffc3d24-dd71-41b8-afd4-7d60d8b7c0a1)
-![image](https://github.com/user-attachments/assets/4e4bc330-c284-4e8e-a237-a43c16febb62)
-![image](https://github.com/user-attachments/assets/2bd4cfdd-821e-4d2b-89fd-4e2861cb025e)
+![image](https://github.com/user-attachments/assets/f29c323d-e6d7-486d-bb23-394c722efb93)
+![image](https://github.com/user-attachments/assets/783676e2-e54e-4f52-9451-ad3e71d1bc91)
+![image](https://github.com/user-attachments/assets/fcbb65f5-30e8-4e90-9dd4-f46249863b24)
+![image](https://github.com/user-attachments/assets/c419f679-b194-4fa9-89e3-8e3192c662e4)
+
 
